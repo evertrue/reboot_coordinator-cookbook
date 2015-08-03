@@ -7,7 +7,7 @@
 if node['reboot_coordinator']['zk_base_node']
   chef_gem 'zk'
   node.set['reboot_coordinator']['zk_hosts'] = (
-    if node['et_mesos_slave']['mocking']
+    if node['et_mesos_slave']['mocking'] || Chef::Config[:solo]
       ['localhost:2181']
     else
       search(
