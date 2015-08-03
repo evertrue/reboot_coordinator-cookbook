@@ -4,9 +4,8 @@
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
-chef_gem 'zk'
-
 if node['reboot_coordinator']['zk_base_node']
+  chef_gem 'zk'
   node.set['reboot_coordinator']['zk_hosts'] = (
     if node['et_mesos_slave']['mocking']
       ['localhost:2181']
@@ -22,10 +21,8 @@ if node['reboot_coordinator']['zk_base_node']
   ruby_block 'clear_reboot_lock' do
     block do
       RebootCoordinator::Helpers::RebootLock.new(
-        node['reboot_coordinator']['zk_hosts'],
-        node['reboot_coordinator']['zk_base_node'],
         node['fqdn'],
-        node['reboot_coordinator']['reboot_interval']
+        node['reboot_coordinator']
       ).clear
     end
   end
@@ -33,10 +30,8 @@ if node['reboot_coordinator']['zk_base_node']
   ruby_block 'set_reboot_lock' do
     block do
       rl = RebootCoordinator::Helpers::RebootLock.new(
-        node['reboot_coordinator']['zk_hosts'],
-        node['reboot_coordinator']['zk_base_node'],
         node['fqdn'],
-        node['reboot_coordinator']['reboot_interval']
+        node['reboot_coordinator']
       )
       rl.set
     end
@@ -57,10 +52,8 @@ reboot 'catchall_reboot_handler' do
     Chef::Log.debug('In catchall_reboot_handler not_if block...')
     node['reboot_coordinator']['zk_base_node'] && (
       RebootCoordinator::Helpers::RebootLock.new(
-        node['reboot_coordinator']['zk_hosts'],
-        node['reboot_coordinator']['zk_base_node'],
         node['fqdn'],
-        node['reboot_coordinator']['reboot_interval']
+        node['reboot_coordinator']
       ).exists?
     )
   end

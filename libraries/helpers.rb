@@ -45,11 +45,11 @@ module RebootCoordinator
         zk.get("#{@base_node}/lock")
       end
 
-      def initialize(zk_hosts, base_node, fqdn, interval)
-        @zk_hosts  = zk_hosts
-        @base_node = base_node
+      def initialize(fqdn, options)
         @fqdn      = fqdn
-        @interval  = interval
+        @zk_hosts  = options['zk_hosts']
+        @base_node = options['zk_base_node']
+        @interval  = options['reboot_interval']
       end
 
       private
