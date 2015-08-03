@@ -1,0 +1,27 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[zookeeper::default]
+      - recipe[exhibitor::default]
+      - recipe[exhibitor::service]
+      - recipe[reboot_coordinator::default]
+    attributes:
+      ec2:
+        placement_availability_zone: us-east-1d
+      reboot_coordinator:
+        zk_base_node: /reboot_coordinator
+        reboot_delay: 5
+      et_mesos_slave:
+        mocking: true
+      zookeeper:
+        service_style: exhibitor
