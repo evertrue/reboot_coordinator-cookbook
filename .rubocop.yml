@@ -1,0 +1,16 @@
+LineLength:
+  Max: 100
+
+SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+# The default 10 lines limit is unrealistic.
+MethodLength:
+  Max: 50
+
+Documentation:
+  Enabled: false
+
+# Disable encoding requirement
+Encoding:
+  Enabled: false
