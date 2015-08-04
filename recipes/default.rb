@@ -5,7 +5,10 @@
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
 if node['reboot_coordinator']['zk_base_node']
-  chef_gem 'zk'
+  chef_gem 'zk' do
+    compile_time true
+  end
+
   node.set['reboot_coordinator']['zk_hosts'] = (
     if node['et_mesos_slave']['mocking'] || Chef::Config[:solo]
       ['localhost:2181']
