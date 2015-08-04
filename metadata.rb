@@ -1,7 +1,7 @@
 name             'reboot_coordinator'
 maintainer       'EverTrue'
 maintainer_email 'devops@evertrue.com'
-license          'all_rights'
+license          'Apache 2.0'
 description      'Installs/Configures reboot_coordinator'
 long_description 'Installs/Configures reboot_coordinator'
 version          '0.1.0'
