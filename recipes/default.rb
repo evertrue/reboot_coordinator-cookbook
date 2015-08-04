@@ -9,18 +9,6 @@ if node['reboot_coordinator']['zk_base_node']
     compile_time true
   end
 
-  node.set['reboot_coordinator']['zk_hosts'] = (
-    if node['et_mesos_slave']['mocking'] || Chef::Config[:solo]
-      ['localhost:2181']
-    else
-      search(
-        :node,
-        "chef_environment:#{node.chef_environment} AND " \
-        'roles:zookeeper'
-      ).map { |n| "#{n[:fqdn]}:2181" }
-    end
-  )
-
   ruby_block 'clear_reboot_lock' do
     block do
       RebootCoordinator::Helpers::RebootLock.new(
