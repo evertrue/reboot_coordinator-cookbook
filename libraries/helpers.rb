@@ -11,7 +11,10 @@ module RebootCoordinator
       def exists?
         return false unless zk.exists?("#{@base_node}/lock")
         Chef::Log.debug('A reboot lock exists')
-        return false if lock.first == @fqdn
+        if lock.first == @fqdn
+          Chef::Log.debug('...but that reboot lock belongs to us')
+          return false
+        end
         Chef::Log.debug("Reboot lock is for another host: #{lock.first}")
         if expired?
           Chef::Log.debug('Found an expired reboot lock')
