@@ -60,7 +60,7 @@ module RebootCoordinator
       def zk
         @zk ||= begin
           require 'zk'
-          ZK::Client.new(@zk_hosts.join(','))
+          ::ZK::Client.new(@zk_hosts.join(','))
         end
       end
     end
