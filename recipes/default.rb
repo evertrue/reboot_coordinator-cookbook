@@ -48,7 +48,7 @@ reboot 'catchall_reboot_handler' do
   delay_mins node['reboot_coordinator']['reboot_delay']
   only_if do
     node['reboot_coordinator']['reboot_permitted'] &&
-      File.exist?('/var/run/reboot-required') &&
+      ::File.exist?('/var/run/reboot-required') &&
       node['reboot_coordinator']['acceptable_reboot_times'].include?(Time.now.hour)
   end
   not_if do
