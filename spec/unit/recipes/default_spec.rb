@@ -35,8 +35,7 @@ describe 'reboot_coordinator::default' do
     end
   end
 
-  context 'When all attributes are default and the /var/run/reboot-required ' \
-          'file exists' do
+  context 'When all attributes are default and pending_reboot is true' do
     context 'and zk_base_node is not set' do
       context 'and time is within acceptable_reboot_times' do
         context 'and reboot_permitted is true' do
@@ -44,8 +43,7 @@ describe 'reboot_coordinator::default' do
             ChefSpec::SoloRunner.new do |node|
               node.set['ec2']['placement_availability_zone'] = 'us-east-1d'
               node.set['reboot_coordinator']['acceptable_reboot_times'] = [Time.now.hour]
-              allow(::File).to receive(:exist?).and_call_original
-              allow(::File).to receive(:exist?).with('/var/run/reboot-required').and_return(true)
+              node.set['pending_reboot'] = true
             end.converge(described_recipe)
           end
 
@@ -60,8 +58,7 @@ describe 'reboot_coordinator::default' do
               node.set['ec2']['placement_availability_zone'] = 'us-east-1d'
               node.set['reboot_coordinator']['acceptable_reboot_times'] = [Time.now.hour]
               node.set['reboot_coordinator']['reboot_permitted'] = false
-              allow(::File).to receive(:exist?).and_call_original
-              allow(::File).to receive(:exist?).with('/var/run/reboot-required').and_return(true)
+              node.set['pending_reboot'] = true
             end.converge(described_recipe)
           end
 
@@ -76,8 +73,7 @@ describe 'reboot_coordinator::default' do
           ChefSpec::SoloRunner.new do |node|
             node.set['ec2']['placement_availability_zone'] = 'us-east-1d'
             node.set['reboot_coordinator']['acceptable_reboot_times'] = [0]
-            allow(::File).to receive(:exist?).and_call_original
-            allow(::File).to receive(:exist?).with('/var/run/reboot-required').and_return(true)
+            node.set['pending_reboot'] = true
           end.converge(described_recipe)
         end
 
@@ -103,8 +99,7 @@ describe 'reboot_coordinator::default' do
             node.set['reboot_coordinator']['acceptable_reboot_times'] = [Time.now.hour]
             node.set['reboot_coordinator']['zk_base_node'] = @zk_base_node
             node.set['et_mesos_slave']['mocking'] = true
-            allow(::File).to receive(:exist?).and_call_original
-            allow(::File).to receive(:exist?).with('/var/run/reboot-required').and_return(true)
+            node.set['pending_reboot'] = true
           end.converge(described_recipe)
         end
 
@@ -124,8 +119,7 @@ describe 'reboot_coordinator::default' do
             node.set['reboot_coordinator']['acceptable_reboot_times'] = [Time.now.hour]
             node.set['reboot_coordinator']['zk_base_node'] = @zk_base_node
             node.set['et_mesos_slave']['mocking'] = true
-            allow(::File).to receive(:exist?).and_call_original
-            allow(::File).to receive(:exist?).with('/var/run/reboot-required').and_return(true)
+            node.set['pending_reboot'] = true
           end.converge(described_recipe)
         end
 

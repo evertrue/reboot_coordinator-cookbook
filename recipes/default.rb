@@ -4,6 +4,13 @@
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
+# Installs a custom Ohai plugin to determine if a reboot is pending.
+
+node.set['ohai']['plugins']['reboot_coordinator'] = 'ohai_plugins'
+include_recipe 'ohai'
+
+Chef::Log.debug("Value of pending_reboot: #{node['pending_reboot']}")
+
 if node['reboot_coordinator']['zk_base_node']
   chef_gem 'zk' do
     compile_time true
@@ -36,7 +43,7 @@ reboot 'catchall_reboot_handler' do
   delay_mins node['reboot_coordinator']['reboot_delay']
   only_if do
     node['reboot_coordinator']['reboot_permitted'] &&
-      ::File.exist?('/var/run/reboot-required') &&
+      node['pending_reboot'] &&
       node['reboot_coordinator']['acceptable_reboot_times'].include?(Time.now.hour)
   end
   not_if do
