@@ -1,6 +1,8 @@
 # reboot_coordinator
 
-A cookbook that should help ensure that no two nodes in the same cluster (with the same value for `node['reboot_coordinator']['zk_base_node']`) are rebooted at the same time.
+![xkcd: Hard Reboot](http://imgs.xkcd.com/comics/hard_reboot.png "Googling inevitably reveals that my problem is caused by a known bug triggered by doing [the exact combination of things I want to do]. I can fix it, or wait a few years until I don't want that combination of things anymore, using the kitchen timer until then.")
+
+A cookbook that should a) reboot machines with a pending reboot and b) help ensure that no two nodes in the same cluster (with the same value for `node['reboot_coordinator']['zk_base_node']`, if specified) are rebooted at the same time.
 
 # Requirements
 
