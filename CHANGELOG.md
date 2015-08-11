@@ -2,6 +2,11 @@ reboot_coordinator CHANGELOG
 ======================
 This is the Changelog for the reboot_coordinator cookbook.
 
+v1.0.2 (2015-08-11)
+-------------------
+
+* Output zookeeper hosts in debug log
+
 v1.0.1 (2015-08-06)
 -------------------
 
