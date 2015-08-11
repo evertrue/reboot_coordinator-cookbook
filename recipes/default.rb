@@ -12,6 +12,8 @@ include_recipe 'ohai'
 Chef::Log.debug("Value of pending_reboot: #{node['pending_reboot']}")
 
 if node['reboot_coordinator']['zk_base_node']
+  Chef::Log.debug('reboot_coordinator is using zookeeper hosts: ' \
+    "#{node['reboot_coordinator']['zk_hosts'].inspect}")
   chef_gem 'zk' do
     compile_time true
   end
