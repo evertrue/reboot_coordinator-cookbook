@@ -4,10 +4,7 @@
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
-# Installs a custom Ohai plugin to determine if a reboot is pending.
-
-node.set['ohai']['plugins']['reboot_coordinator'] = 'ohai_plugins'
-include_recipe 'ohai'
+include_recipe 'reboot_coordinator::ohai'
 
 Chef::Log.debug("Value of pending_reboot: #{node['pending_reboot']}")
 
