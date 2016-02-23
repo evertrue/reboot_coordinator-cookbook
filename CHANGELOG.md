@@ -2,6 +2,11 @@ reboot_coordinator CHANGELOG
 ======================
 This is the Changelog for the reboot_coordinator cookbook.
 
+v1.0.3 (2016-02-23)
+-------------------
+
+* Move ohai plugin to its own recipe
+
 v1.0.2 (2015-08-11)
 -------------------
 
