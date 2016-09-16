@@ -19,7 +19,7 @@ suites:
         placement_availability_zone: us-east-1d
       reboot_coordinator:
         zk_base_node: /reboot_coordinator
-        reboot_delay: 5
+        reboot_delay: 1
       et_mesos_slave:
         mocking: true
       zookeeper:

@@ -12,6 +12,6 @@ reboot_times_chart = {
 
 default['reboot_coordinator']['acceptable_reboot_times'] =
   reboot_times_chart[node['ec2']['placement_availability_zone']]
-default['reboot_coordinator']['reboot_delay'] = 1
+default['reboot_coordinator']['reboot_delay'] = 5
 default['reboot_coordinator']['reboot_interval'] = 300
 default['reboot_coordinator']['zk_hosts'] = ['localhost:2181']
