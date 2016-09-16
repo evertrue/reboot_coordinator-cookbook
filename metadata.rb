@@ -6,4 +6,4 @@ description      'Installs/Configures reboot_coordinator'
 long_description 'Installs/Configures reboot_coordinator'
 version          '1.0.3'
 
-depends 'ohai'
+depends 'ohai', '>= 4.0'
