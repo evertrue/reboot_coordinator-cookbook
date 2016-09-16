@@ -36,6 +36,14 @@ if node['reboot_coordinator']['zk_base_node']
   end
 end
 
+Chef::Log.debug('State of reboot triggers:')
+Chef::Log.debug("reboot_permitted: #{node['reboot_coordinator']['reboot_permitted']}")
+Chef::Log.debug("pending_reboot: #{node['pending_reboot']}")
+Chef::Log.debug(
+  'acceptable_reboot_times: ' \
+  "#{node['reboot_coordinator']['acceptable_reboot_times'].include?(Time.now.hour)}"
+)
+
 reboot 'catchall_reboot_handler' do
   action     :request_reboot
   reason     'Chef requested a reboot in reboot_coordinator::default'
