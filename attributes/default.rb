@@ -15,3 +15,4 @@ default['reboot_coordinator']['acceptable_reboot_times'] =
 default['reboot_coordinator']['reboot_delay'] = 5
 default['reboot_coordinator']['reboot_interval'] = 300
 default['reboot_coordinator']['zk_hosts'] = ['localhost:2181']
+default['reboot_coordinator']['pre_reboot_commands'] = {}

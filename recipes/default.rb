@@ -44,6 +44,21 @@ Chef::Log.debug(
   "#{node['reboot_coordinator']['acceptable_reboot_times'].include?(Time.now.hour)}"
 )
 
+node['reboot_coordinator']['pre_reboot_commands'].each do |cmd_name, cmd|
+  # The idea here to run these commands before a reboot, but also to ensure
+  # that a reboot does not proceed (because Chef bails) if these don't complete
+  # successfully
+  execute "pre_reboot_command #{cmd_name}" do
+    command cmd
+    action  :run
+    only_if do
+      node['reboot_coordinator']['reboot_permitted'] &&
+        node['pending_reboot'] &&
+        node['reboot_coordinator']['acceptable_reboot_times'].include?(Time.now.hour)
+    end
+  end
+end
+
 reboot 'catchall_reboot_handler' do
   action     :request_reboot
   reason     'Chef requested a reboot in reboot_coordinator::default'
