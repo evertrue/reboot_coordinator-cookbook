@@ -2,6 +2,13 @@ reboot_coordinator CHANGELOG
 ======================
 This is the Changelog for the reboot_coordinator cookbook.
 
+v2.0.0 (2016-09-16)
+-------------------
+
+* New feature: Pre-reboot commands
+* Default to 5 minute reboots with 1 minute during testing
+* **BREAKING:** Update ohai config for Ohai v4
+
 v1.0.3 (2016-02-23)
 -------------------
 
