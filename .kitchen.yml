@@ -1,12 +1,29 @@
 ---
 driver:
-  name: vagrant
+  name: ec2
+  require_chef_omnibus: 12.14.60
+  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
+  region: us-east-1
+  availability_zone: us-east-1b
+  security_group_ids: ['ci-testing']
+  instance_type: c3.large
+  interface: public
+  tags:
+    Env: public
+    Type: test
+
+transport:
+  name: sftp
+  ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
 provisioner:
   name: chef_zero
 
 platforms:
   - name: ubuntu-14.04
+    driver:
+      tags:
+        Name: default-reboot-coordinator-ubuntu-1404
 
 suites:
   - name: default
@@ -17,7 +34,7 @@ suites:
       - recipe[setup_reboots::default]
     attributes:
       ec2:
-        placement_availability_zone: us-east-1d
+        placement_availability_zone: us-east-1b
       reboot_coordinator:
         zk_base_node: /reboot_coordinator
         reboot_delay: 1
