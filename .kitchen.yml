@@ -28,10 +28,10 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[setup_reboots::default]
       - recipe[zookeeper::default]
       - recipe[zookeeper::service]
       - recipe[reboot_coordinator::default]
-      - recipe[setup_reboots::default]
     attributes:
       ec2:
         placement_availability_zone: us-east-1b
