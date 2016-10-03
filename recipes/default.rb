@@ -51,7 +51,7 @@ node['reboot_coordinator']['pre_reboot_commands'].each do |cmd_name, cmd|
   # successfully
   execute "pre_reboot_command #{cmd_name}" do
     command cmd
-    action  :run
+    action  :nothing
     only_if do
       node['reboot_coordinator']['reboot_permitted'] &&
         node['pending_reboot'] &&
@@ -61,6 +61,9 @@ node['reboot_coordinator']['pre_reboot_commands'].each do |cmd_name, cmd|
 end
 
 reboot 'catchall_reboot_handler' do
+  node['reboot_coordinator']['pre_reboot_commands'].each_key do |cmd_name|
+    notifies :run, "execute[pre_reboot_command #{cmd_name}]", :before
+  end
   action     :request_reboot
   reason     'Chef requested a reboot in reboot_coordinator::default'
   delay_mins node['reboot_coordinator']['reboot_delay']
