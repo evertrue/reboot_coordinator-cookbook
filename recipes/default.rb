@@ -4,6 +4,7 @@
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
+include_recipe 'build-essential'
 include_recipe 'reboot_coordinator::ohai'
 
 Chef::Log.debug("Value of pending_reboot: #{node['pending_reboot']}")

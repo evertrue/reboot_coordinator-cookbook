@@ -7,3 +7,4 @@ long_description 'Installs/Configures reboot_coordinator'
 version          '2.0.0'
 
 depends 'ohai', '>= 4.0'
+depends 'build-essential'

@@ -1,3 +1,4 @@
+override['build-essential']['compile_time'] = true
 default['reboot_coordinator']['reboot_permitted'] = true
 
 # A table to help ensure that two nodes in the same cluster don't reboot at the
