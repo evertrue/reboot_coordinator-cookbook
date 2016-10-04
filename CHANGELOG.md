@@ -2,6 +2,12 @@ reboot_coordinator CHANGELOG
 ======================
 This is the Changelog for the reboot_coordinator cookbook.
 
+v2.0.1 (2016-10-04)
+-------------------
+
+* Attempt to run pre-reboot commands just before the actual reboot
+* Include build-essential
+
 v2.0.0 (2016-09-16)
 -------------------
 
