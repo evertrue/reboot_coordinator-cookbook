@@ -2,6 +2,11 @@ reboot_coordinator CHANGELOG
 ======================
 This is the Changelog for the reboot_coordinator cookbook.
 
+v2.0.2 (2017-01-31)
+-------------------
+
+* Pass the chef-configured environment to the pre-reboot scripts
+
 v2.0.1 (2016-10-04)
 -------------------
 
