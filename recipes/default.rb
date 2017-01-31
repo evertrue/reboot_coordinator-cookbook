@@ -51,6 +51,7 @@ node['reboot_coordinator']['pre_reboot_commands'].each do |cmd_name, cmd|
   # successfully
   execute "pre_reboot_command #{cmd_name}" do
     command cmd
+    environment node['etc_environment'] if node['etc_environment']
     action  :nothing
     only_if do
       node['reboot_coordinator']['reboot_permitted'] &&

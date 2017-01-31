@@ -42,3 +42,5 @@ suites:
         mocking: true
       zookeeper:
         service_style: upstart
+      etc_environment:
+        TEST_VAR: VALUE
