@@ -72,6 +72,9 @@ node['reboot_coordinator']['pre_reboot_commands'].each do |cmd_name, cmd|
 end
 
 reboot 'catchall_reboot_handler' do
+  node['reboot_coordinator']['pre_reboot_resources'].each do |pr_resource, pr_resource_conf|
+    notifies pr_resource_conf['action'], pr_resource, pr_resource_conf['when']
+  end
   node['reboot_coordinator']['pre_reboot_commands'].each_key do |cmd_name|
     notifies :run, "execute[pre_reboot_command #{cmd_name}]", :before
   end
