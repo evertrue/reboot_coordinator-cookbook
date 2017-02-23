@@ -4,7 +4,7 @@ maintainer_email 'devops@evertrue.com'
 license          'Apache 2.0'
 description      'Installs/Configures reboot_coordinator'
 long_description 'Installs/Configures reboot_coordinator'
-version          '2.0.2'
+version          '2.0.3'
 
 depends 'ohai', '>= 4.0'
 depends 'build-essential'
