@@ -37,12 +37,22 @@ if node['reboot_coordinator']['zk_base_node']
   end
 end
 
+# For various reasons (JSON being one of them), the reboot times value might
+# come in as a string
+acceptable_reboot_times =
+  if node['reboot_coordinator']['acceptable_reboot_times'].respond_to?(:match) &&
+    node['reboot_coordinator']['acceptable_reboot_times'].match(/\d+\.\.\d+/) # Ensure it's a range
+    Range.new(*node['reboot_coordinator']['acceptable_reboot_times'].split('..').map(&:to_i))
+  else
+    node['reboot_coordinator']['acceptable_reboot_times']
+  end
+
 Chef::Log.debug('State of reboot triggers:')
 Chef::Log.debug("reboot_permitted: #{node['reboot_coordinator']['reboot_permitted']}")
 Chef::Log.debug("pending_reboot: #{node['pending_reboot']}")
 Chef::Log.debug(
   'acceptable_reboot_times: ' \
-  "#{node['reboot_coordinator']['acceptable_reboot_times'].include?(Time.now.hour)}"
+  "#{acceptable_reboot_times.include?(Time.now.hour)}"
 )
 
 node['reboot_coordinator']['pre_reboot_commands'].each do |cmd_name, cmd|
@@ -56,7 +66,7 @@ node['reboot_coordinator']['pre_reboot_commands'].each do |cmd_name, cmd|
     only_if do
       node['reboot_coordinator']['reboot_permitted'] &&
         node['pending_reboot'] &&
-        node['reboot_coordinator']['acceptable_reboot_times'].include?(Time.now.hour)
+        acceptable_reboot_times.include?(Time.now.hour)
     end
   end
 end
@@ -71,7 +81,7 @@ reboot 'catchall_reboot_handler' do
   only_if do
     node['reboot_coordinator']['reboot_permitted'] &&
       node['pending_reboot'] &&
-      node['reboot_coordinator']['acceptable_reboot_times'].include?(Time.now.hour)
+      acceptable_reboot_times.include?(Time.now.hour)
   end
   not_if do
     Chef::Log.debug('In catchall_reboot_handler not_if block...')
