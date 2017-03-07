@@ -7,6 +7,8 @@
 include_recipe 'build-essential'
 include_recipe 'reboot_coordinator::ohai'
 
+package 'jq'
+
 Chef::Log.debug("Value of pending_reboot: #{node['pending_reboot']}")
 
 if node['reboot_coordinator']['zk_base_node']
@@ -71,6 +73,13 @@ node['reboot_coordinator']['pre_reboot_commands'].each do |cmd_name, cmd|
   end
 end
 
+# This helps us avoid running the reboot on the same run where we set up the reboot coordinator,
+# which can sometimes be a problem if pre-reboot commands won't run cleanly until after a full
+# convergence.
+#
+node.set['reboot_coordinator']['convergences_since_creation'] =
+  (node['reboot_coordinator']['convergences_since_creation'] || 0) + 1
+
 reboot 'catchall_reboot_handler' do
   node['reboot_coordinator']['pre_reboot_resources'].each do |pr_resource, pr_resource_conf|
     notifies pr_resource_conf['action'], pr_resource, pr_resource_conf['when']
@@ -84,6 +93,7 @@ reboot 'catchall_reboot_handler' do
   only_if do
     node['reboot_coordinator']['reboot_permitted'] &&
       node['pending_reboot'] &&
+      node['reboot_coordinator']['convergences_since_creation'] > 1 &&
       acceptable_reboot_times.include?(Time.now.hour)
   end
   not_if do
