@@ -6,5 +6,7 @@ description      'Installs/Configures reboot_coordinator'
 long_description 'Installs/Configures reboot_coordinator'
 version          '2.0.4'
 
+supports 'ubuntu', '>= 14.04'
+
 depends 'ohai', '>= 4.0'
 depends 'build-essential'
