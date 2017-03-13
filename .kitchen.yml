@@ -20,6 +20,10 @@ provisioner:
   name: chef_zero
 
 platforms:
+  - name: ubuntu-12.04
+    driver:
+      tags:
+        Name: default-reboot-coordinator-ubuntu-1204
   - name: ubuntu-14.04
     driver:
       tags:
