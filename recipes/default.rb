@@ -6,6 +6,8 @@
 
 include_recipe 'build-essential'
 include_recipe 'reboot_coordinator::ohai'
+include_recipe 'reboot_coordinator::legacy' if platform_family?('debian') &&
+                                               node['platform_version'].to_i < 14
 
 package 'jq'
 
