@@ -1,5 +1,5 @@
 override['build-essential']['compile_time'] = true
-default['reboot_coordinator']['reboot_permitted'] = true
+default['reboot_coordinator']['reboot_permitted'] = false
 
 # A table to help ensure that two nodes in the same cluster don't reboot at the
 # same time. The ranges represent hours, so nodes in us-east-1a are allowed
