@@ -82,30 +82,30 @@ end
 node.set['reboot_coordinator']['convergences_since_creation'] =
   (node['reboot_coordinator']['convergences_since_creation'] || 0) + 1
 
-reboot 'catchall_reboot_handler' do
-  node['reboot_coordinator']['pre_reboot_resources'].each do |pr_resource, pr_resource_conf|
-    notifies pr_resource_conf['action'], pr_resource, pr_resource_conf['when']
-  end
-  node['reboot_coordinator']['pre_reboot_commands'].each_key do |cmd_name|
-    notifies :run, "execute[pre_reboot_command #{cmd_name}]", :before
-  end
-  action     :request_reboot
-  reason     'Chef requested a reboot in reboot_coordinator::default'
-  delay_mins node['reboot_coordinator']['reboot_delay']
-  only_if do
-    node['reboot_coordinator']['reboot_permitted'] &&
-      node['pending_reboot'] &&
-      node['reboot_coordinator']['convergences_since_creation'] > 1 &&
-      acceptable_reboot_times.include?(Time.now.hour)
-  end
-  not_if do
-    Chef::Log.debug('In catchall_reboot_handler not_if block...')
-    node['reboot_coordinator']['zk_base_node'] && (
-      RebootCoordinator::Helpers::RebootLock.new(
-        node['fqdn'],
-        node['reboot_coordinator']
-      ).exists?
-    )
-  end
-  notifies :run, 'ruby_block[set_reboot_lock]' if node['reboot_coordinator']['zk_base_node']
-end
+# reboot 'catchall_reboot_handler' do
+#   node['reboot_coordinator']['pre_reboot_resources'].each do |pr_resource, pr_resource_conf|
+#     notifies pr_resource_conf['action'], pr_resource, pr_resource_conf['when']
+#   end
+#   node['reboot_coordinator']['pre_reboot_commands'].each_key do |cmd_name|
+#     notifies :run, "execute[pre_reboot_command #{cmd_name}]", :before
+#   end
+#   action     :request_reboot
+#   reason     'Chef requested a reboot in reboot_coordinator::default'
+#   delay_mins node['reboot_coordinator']['reboot_delay']
+#   only_if do
+#     node['reboot_coordinator']['reboot_permitted'] &&
+#       node['pending_reboot'] &&
+#       node['reboot_coordinator']['convergences_since_creation'] > 1 &&
+#       acceptable_reboot_times.include?(Time.now.hour)
+#   end
+#   not_if do
+#     Chef::Log.debug('In catchall_reboot_handler not_if block...')
+#     node['reboot_coordinator']['zk_base_node'] && (
+#       RebootCoordinator::Helpers::RebootLock.new(
+#         node['fqdn'],
+#         node['reboot_coordinator']
+#       ).exists?
+#     )
+#   end
+#   notifies :run, 'ruby_block[set_reboot_lock]' if node['reboot_coordinator']['zk_base_node']
+# end
